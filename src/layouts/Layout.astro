@@ -1,4 +1,7 @@
 ---
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+
 const { title = 'Create With Aji', description, canonicalUrl } = Astro.props;
 const canonicalHref = canonicalUrl ? new URL(canonicalUrl, Astro.url).toString() : null;
 ---
@@ -21,33 +24,11 @@ const canonicalHref = canonicalUrl ? new URL(canonicalUrl, Astro.url).toString()
 	</head>
 	<body>
 		<div class="page">
-			<header class="site-header">
-				<div class="brand">
-					<span class="brand-mark" aria-hidden="true">*</span>
-					<div>
-						<p class="brand-title">Create With Aji</p>
-						<p class="brand-subtitle">Studio kreatif & web</p>
-					</div>
-				</div>
-				<nav class="site-nav" aria-label="Navigasi utama">
-					<a href="/">Beranda</a>
-					<a href="/about">About</a>
-					<a href="/service">Service</a>
-					<a href="/blog">Blog</a>
-					<a href="/contact">Contact</a>
-				</nav>
-			</header>
+			<Header />
 			<main class="site-main">
 				<slot />
 			</main>
-			<footer class="site-footer">
-				<p>(c) 2026 Create With Aji. Semua hak dilindungi.</p>
-				<div class="footer-links">
-					<a href="mailto:hello@createwithaji.com">hello@createwithaji.com</a>
-					<span class="dot" aria-hidden="true">.</span>
-					<a href="https://www.instagram.com">Instagram</a>
-				</div>
-			</footer>
+			<Footer />
 		</div>
 	</body>
 </html>
