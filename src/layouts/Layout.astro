@@ -1,23 +1,59 @@
+---
+const { title = 'Create With Aji', description, canonicalUrl } = Astro.props;
+const canonicalHref = canonicalUrl ? new URL(canonicalUrl, Astro.url).toString() : null;
+---
+
 <!doctype html>
-<html lang="en">
+<html lang="id">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
+		<link
+			rel="stylesheet"
+			href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+		/>
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
+		<title>{title}</title>
+		{description && <meta name="description" content={description} />}
+		{canonicalHref && <link rel="canonical" href={canonicalHref} />}
 	</head>
 	<body>
-		<slot />
+		<div class="page">
+			<header class="site-header">
+				<div class="brand">
+					<span class="brand-mark" aria-hidden="true">*</span>
+					<div>
+						<p class="brand-title">Create With Aji</p>
+						<p class="brand-subtitle">Studio kreatif & web</p>
+					</div>
+				</div>
+				<nav class="site-nav" aria-label="Navigasi utama">
+					<a href="/">Beranda</a>
+					<a href="/about">About</a>
+					<a href="/service">Service</a>
+					<a href="/blog">Blog</a>
+					<a href="/contact">Contact</a>
+				</nav>
+			</header>
+			<main class="site-main">
+				<slot />
+			</main>
+			<footer class="site-footer">
+				<p>(c) 2026 Create With Aji. Semua hak dilindungi.</p>
+				<div class="footer-links">
+					<a href="mailto:hello@createwithaji.com">hello@createwithaji.com</a>
+					<span class="dot" aria-hidden="true">.</span>
+					<a href="https://www.instagram.com">Instagram</a>
+				</div>
+			</footer>
+		</div>
 	</body>
 </html>
 
 <style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
+	:global(html) {
+		font-family: "Poppins", system-ui, -apple-system, "Segoe UI", sans-serif;
 	}
 </style>

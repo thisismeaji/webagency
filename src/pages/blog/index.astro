@@ -1,0 +1,36 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog')).sort(
+	(a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime()
+);
+
+const formatDate = (value) =>
+	new Intl.DateTimeFormat('id-ID', {
+		day: '2-digit',
+		month: 'long',
+		year: 'numeric',
+	}).format(value);
+---
+
+<Layout>
+	<section>
+		<h1>Blog</h1>
+		<p>Artikel terbaru seputar desain, brand, dan web.</p>
+		<ul>
+			{posts.map((post) => (
+				<li>
+					<a href={`/blog/${post.slug.split('/').pop()}`}>
+						<Image src={post.data.image} alt={post.data.title} loading="lazy" />
+						{post.data.title}
+					</a>
+					<small>{post.data.category}</small>
+					<p>{post.data.description}</p>
+					<small>{formatDate(post.data.pubDate)}</small>
+				</li>
+			))}
+		</ul>
+	</section>
+</Layout>

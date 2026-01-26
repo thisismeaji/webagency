@@ -1,0 +1,36 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+	const posts = await getCollection('blog');
+	return posts.map((post) => ({
+		params: { slug: post.slug.split('/').pop() },
+		props: { post },
+	}));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+const metaTitle = post.data.titleTag ?? post.data.title;
+const metaDescription = post.data.metaDescription ?? post.data.description;
+
+const formatDate = (value) =>
+	new Intl.DateTimeFormat('id-ID', {
+		day: '2-digit',
+		month: 'long',
+		year: 'numeric',
+	}).format(value);
+---
+
+<Layout title={metaTitle} description={metaDescription} canonicalUrl={post.data.url}>
+	<article>
+		<h1>{post.data.title}</h1>
+		<small>{post.data.category}</small>
+		<p>{post.data.description}</p>
+		<small>{formatDate(post.data.pubDate)}</small>
+		<Image src={post.data.image} alt={post.data.title} />
+		<Content />
+	</article>
+</Layout>
