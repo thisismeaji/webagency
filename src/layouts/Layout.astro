@@ -2,39 +2,70 @@
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 
-const { title = 'Create With Aji', description, canonicalUrl } = Astro.props;
-const canonicalHref = canonicalUrl ? new URL(canonicalUrl, Astro.url).toString() : null;
+const { title = "Create With Aji", description, canonicalUrl } = Astro.props;
+const canonicalHref = canonicalUrl
+  ? new URL(canonicalUrl, Astro.url).toString()
+  : null;
 ---
 
 <!doctype html>
 <html lang="id">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<link
-			rel="stylesheet"
-			href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-		/>
-		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
-		{description && <meta name="description" content={description} />}
-		{canonicalHref && <link rel="canonical" href={canonicalHref} />}
-	</head>
-	<body>
-		<div class="page">
-			<Header />
-			<main class="site-main">
-				<slot />
-			</main>
-			<Footer />
-		</div>
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    {description && <meta name="description" content={description} />}
+    {canonicalHref && <link rel="canonical" href={canonicalHref} />}
+  </head>
+  <body>
+    <Header />
+    <main>
+      <slot />
+    </main>
+    <Footer />
+  </body>
 </html>
 
-<style>
-	:global(html) {
-		font-family: "Poppins", system-ui, -apple-system, "Segoe UI", sans-serif;
-	}
+<style is:global>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+	font-family: "Poppins";
+  }
+
+  :root{
+    --primary: #211951;
+    --secondary: #836FFF;
+    --accent: #15F5BA;
+    --accent2: #F0F3FF;
+  }
+
+  main{
+    height: 200vh;
+  }
+
+  h1{
+    font-size: 48px;
+  }
+
+  p{
+    line-height: 1.5;
+  }
+
+  button{
+    padding: 8px 16px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 500;
+    border: none;
+    cursor:pointer;
+  }
 </style>
