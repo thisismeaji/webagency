@@ -1,7 +1,8 @@
 <header class="site-header">
   <nav>
     <div class="brand">
-      <p>Logo</p>
+      <img src="/zota-logo.png" alt="Logo Zota Agency" />
+      <p>Zota Agency</p>
     </div>
     <div class="site-nav" aria-label="Navigasi utama">
       <a href="/">Beranda</a>
@@ -10,7 +11,13 @@
       <a href="/blog">Blog</a>
       <a href="/contact">Contact</a>
     </div>
+    <div class="menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
   </nav>
+  <div class="nav-overlay"></div>
 </header>
 
 <style>
@@ -20,9 +27,10 @@
     align-items: center;
     width: 100%;
     padding: 16px;
-	z-index: 1000;
-	position: fixed;
+    position: fixed;
     top: 0;
+    color: var(--accent2);
+    z-index: 1000;
   }
 
   nav {
@@ -32,13 +40,20 @@
     width: 100%;
     padding: 16px;
     max-width: 1200px;
-    /* From https://css.glass */
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 5px;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    height: 100%;
+    background-color: var(--secondary);
+  }
+
+  .brand {
+    height: 24px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .brand img {
+    width: 24px;
+    height: 100%;
   }
 
   a {
@@ -50,4 +65,107 @@
     display: flex;
     gap: 24px;
   }
+
+  .menu {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .menu span {
+    display: inline-block;
+    width: 24px;
+    height: 1px;
+    background-color: var(--accent2);
+  }
+
+  @media (max-width: 768px) {
+    .menu {
+      display: flex;
+    }
+
+    .site-nav {
+      position: fixed;
+      top: 0;
+      left: -100%;
+      width: 80%;
+      height: 100dvh;
+
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+
+      padding: 24px;
+      background-color: var(--primary);
+      z-index: 1002;
+      transition: left 0.3s ease;
+    }
+
+    .site-nav.active {
+      left: 0;
+    }
+  }
+.nav-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    z-index: 1001;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  .nav-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
 </style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const menuBtn = document.querySelector(".menu");
+    const siteNav = document.querySelector(".site-nav");
+    const overlay = document.querySelector(".nav-overlay");
+    const navLinks = document.querySelectorAll(".site-nav a");
+
+    if (!menuBtn || !siteNav || !overlay) return;
+
+    const openMenu = () => {
+      siteNav.classList.add("active");
+      overlay.classList.add("active");
+    };
+
+    const closeMenu = () => {
+      siteNav.classList.remove("active");
+      overlay.classList.remove("active");
+    };
+
+    menuBtn.addEventListener("click", () => {
+      siteNav.classList.contains("active")
+        ? closeMenu()
+        : openMenu();
+    });
+
+    overlay.addEventListener("click", closeMenu);
+
+    navLinks.forEach((link) => {
+      link.addEventListener("click", (e) => {
+        e.preventDefault();
+
+        const href = link.getAttribute("href");
+        if (!href) return;
+
+        closeMenu();
+
+        setTimeout(() => {
+          window.location.href = href;
+        }, 300);
+      });
+    });
+  });
+</script>
+
